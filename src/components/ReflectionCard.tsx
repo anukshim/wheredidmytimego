@@ -65,7 +65,7 @@ const ReflectionCard: React.FC = () => {
     <div className="keynote-card">
       <div className="space-y-6">
         <div>
-          <label className="block text-[rgb(var(--keynote-text))] font-semibold mb-2">
+          <label className="block text-foreground font-semibold mb-2">
             Highlight of the day
           </label>
           <textarea
@@ -81,7 +81,7 @@ const ReflectionCard: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-[rgb(var(--keynote-text))] font-semibold mb-2">
+          <label className="block text-foreground font-semibold mb-2">
             Trade for sleep
           </label>
           <textarea
@@ -97,7 +97,7 @@ const ReflectionCard: React.FC = () => {
         </div>
 
         {showGoodNight && (
-          <div className="flex items-center justify-center gap-3 text-[rgb(var(--keynote-primary))] py-4">
+          <div className="flex items-center justify-center gap-3 text-primary py-4">
             <Check className="checkmark" />
             <span className="text-lg font-medium">See you tomorrow.</span>
           </div>
