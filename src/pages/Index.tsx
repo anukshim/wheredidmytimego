@@ -40,6 +40,16 @@ const Index = () => {
     <div className="min-h-screen bg-[rgb(var(--canvas-bg))]">
       <div className="keynote-container">
         
+        {/* Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-[rgb(var(--keynote-text))] mb-2">
+            Where Did My Time Go?
+          </h1>
+          <p className="text-xl text-[rgb(var(--keynote-text-secondary))]">
+            See where today went. Shape where tomorrow goes.
+          </p>
+        </div>
+
         {/* Hero Loader (0-3s) */}
         {showHero && (
           <HeroLoader onComplete={handleHeroComplete} />
