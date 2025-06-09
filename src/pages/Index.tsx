@@ -37,15 +37,15 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[rgb(var(--canvas-bg))]">
-      <div className="keynote-container">
+    <div className="min-h-screen bg-background">
+      <div className="dashboard-container">
         
         {/* Title */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-[rgb(var(--keynote-text))] mb-2">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
             Where Did My Time Go?
           </h1>
-          <p className="text-xl text-[rgb(var(--keynote-text-secondary))]">
+          <p className="text-xl text-muted-foreground">
             See where today went. Shape where tomorrow goes.
           </p>
         </div>
