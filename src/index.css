@@ -6,6 +6,16 @@
 
 @layer base {
   :root {
+    /* Time Dashboard Custom Colors */
+    --dashboard-bg: 253 253 253; /* #fdfdfd */
+    --dashboard-primary: 79 70 229; /* #4f46e5 indigo */
+    --dashboard-accent: 224 231 255; /* #e0e7ff lavender */
+    --dashboard-text: 15 23 42; /* dark slate */
+    --dashboard-card: 255 255 255; /* white */
+    --dashboard-border: 226 232 240; /* light border */
+    --dashboard-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    
+    /* Original design tokens */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -99,5 +109,44 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  .dashboard-container {
+    @apply max-w-[680px] mx-auto px-6 py-8;
+  }
+  
+  .dashboard-card {
+    @apply bg-white rounded-2xl p-5 shadow-[0_1px_3px_0_rgb(0_0_0_/_0.1),_0_1px_2px_-1px_rgb(0_0_0_/_0.1)];
+  }
+  
+  .dashboard-button {
+    @apply bg-[rgb(79_70_229)] text-white px-4 py-2 rounded-md font-medium hover:bg-[rgb(67_56_202)] transition-colors;
+  }
+  
+  .metric-card {
+    @apply bg-[rgb(224_231_255)] rounded-xl p-4 text-center;
+  }
+  
+  .metric-value {
+    @apply text-2xl font-bold text-[rgb(79_70_229)] mb-1;
+  }
+  
+  .metric-label {
+    @apply text-sm text-slate-600;
+  }
+  
+  .timeline-segment {
+    @apply h-8 flex-1 border border-white;
+  }
+  
+  .hour-label {
+    @apply text-xs text-slate-500 mt-2;
+  }
+  
+  .reflection-textarea {
+    @apply w-full p-3 border border-slate-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[rgb(79_70_229)] focus:border-transparent;
   }
 }
