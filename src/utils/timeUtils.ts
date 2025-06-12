@@ -72,9 +72,26 @@ export const createTimelineData = (stats: TimeStats): Array<{hour: number, domin
 };
 
 // Call OpenAI API for insights
-export const getAIInsights = async (stats: TimeStats, apiKey?: string): Promise<string> => {
+export const getAIInsights = async (
+  stats: TimeStats, 
+  apiKey?: string, 
+  reflectionData?: { highlight: string; trade: string }
+): Promise<string> => {
   if (!apiKey) {
-    // Return mock data for demo
+    // Return enhanced mock data for demo
+    const hasReflection = reflectionData && (reflectionData.highlight || reflectionData.trade);
+    if (hasReflection) {
+      return `**Story**
+Your reflection shows a thoughtful approach to your digital day. You've identified what worked well and what didn't, which is the first step to building better habits.
+
+**Insights**
+➜ Your awareness of time trade-offs shows growing digital mindfulness
+➜ Highlighting positive moments helps reinforce productive patterns
+
+**Tomorrow**
+Try: Start your day by reviewing yesterday's reflection before opening any apps.`;
+    }
+    
     return `**Story**
 You spent most of your digital day in productivity mode, with occasional creative breaks. A balanced approach to screen time that shows intention behind your clicks.
 
@@ -87,16 +104,30 @@ Try: Block the first hour for deep work without any notifications.`;
   }
 
   try {
-    const prompt = `You are a concise productivity coach. 
-JSON of seconds-per-host today: ${JSON.stringify(stats)}
+    // Build enhanced prompt with reflection data
+    let prompt = `You are a concise productivity coach analyzing digital habits.
+
+TIME DATA (seconds per website):
+${JSON.stringify(stats)}`;
+
+    if (reflectionData && (reflectionData.highlight || reflectionData.trade)) {
+      prompt += `
+
+USER'S REFLECTION:
+Highlight of the day: "${reflectionData.highlight}"
+Activity to trade for sleep: "${reflectionData.trade}"`;
+    }
+
+    prompt += `
+
 Respond in Markdown using this template exactly:
 **Story**
-<two sentences, empathetic, light humour>
+<two sentences connecting their time data with their reflection, empathetic, light humor>
 **Insights**
-➜ <insight 1, ≤15 words>
-➜ <insight 2, ≤15 words>
+➜ <insight 1 based on data + reflection, ≤15 words>
+➜ <insight 2 based on patterns you see, ≤15 words>
 **Tomorrow**
-Try: <one clear action>`;
+Try: <one specific, actionable suggestion based on their reflection and data>`;
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -113,7 +144,7 @@ Try: <one clear action>`;
           }
         ],
         temperature: 0.7,
-        max_tokens: 200
+        max_tokens: 250
       }),
     });
 

@@ -1,152 +1,250 @@
+/* Apple-like Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
-
 @layer base {
   :root {
-    /* Time Dashboard Custom Colors */
-    --dashboard-bg: 253 253 253; /* #fdfdfd */
-    --dashboard-primary: 79 70 229; /* #4f46e5 indigo */
-    --dashboard-accent: 224 231 255; /* #e0e7ff lavender */
-    --dashboard-text: 15 23 42; /* dark slate */
-    --dashboard-card: 255 255 255; /* white */
-    --dashboard-border: 226 232 240; /* light border */
-    --dashboard-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    /* Core Design Variables */
+    --bg: 255 255 255; /* Pure white */
+    --fg: 17 24 39; /* Gray-900 */
+    --card: 255 255 255; /* White card background */
+    --accent: 79 70 229; /* Indigo-600 #4F46E5 */
+    --muted: 156 163 175; /* Gray-400 for muted text */
     
-    /* Original design tokens */
+    /* Chart Palette */
+    --chart-indigo: 79 70 229; /* #4F46E5 */
+    --chart-green: 34 197 94; /* #22C55E */
+    --chart-amber: 245 158 11; /* #F59E0B */
+    --chart-red: 239 68 68; /* #EF4444 */
+    
+    /* Motion */
+    --spring-curve: cubic-bezier(.33,1,.68,1);
+    
+    /* Legacy shadcn variables for compatibility */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --ring: 79 70 229;
     --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: 17 24 39; /* Gray-900 */
+      --fg: 249 250 251; /* Gray-50 */
+      --card: 31 41 55; /* Gray-800 */
+      --muted: 156 163 175; /* Gray-400 stays same */
+      
+      --background: 222.2 84% 4.9%;
+      --foreground: 210 40% 98%;
+      --border: 217.2 32.6% 17.5%;
+      --input: 217.2 32.6% 17.5%;
+    }
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    @apply text-[rgb(var(--fg))];
+    background: rgb(var(--bg));
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
 @layer components {
+  /* Layout */
   .dashboard-container {
-    @apply max-w-[680px] mx-auto px-6 py-8;
+    @apply max-w-[800px] mx-auto px-8 py-12;
   }
   
+  /* Cards with Apple-like styling */
   .dashboard-card {
-    @apply bg-white rounded-2xl p-5 shadow-[0_1px_3px_0_rgb(0_0_0_/_0.1),_0_1px_2px_-1px_rgb(0_0_0_/_0.1)];
+    background: rgb(var(--card));
+    @apply rounded-[20px] p-8 shadow-[0_1px_3px_0_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)];
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s var(--spring-curve);
   }
   
+  .dashboard-card:hover {
+    @apply shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)];
+  }
+  
+  /* Buttons */
   .dashboard-button {
-    @apply bg-[rgb(79_70_229)] text-white px-4 py-2 rounded-md font-medium hover:bg-[rgb(67_56_202)] transition-colors;
+    background: rgb(var(--accent));
+    @apply text-white px-6 py-3 rounded-xl font-semibold;
+    transition: all 0.2s var(--spring-curve);
+    border: none;
+    cursor: pointer;
   }
   
-  .metric-card {
-    @apply bg-[rgb(224_231_255)] rounded-xl p-4 text-center;
+  .dashboard-button:hover {
+    background: rgb(67 56 202); /* Indigo-700 */
+    transform: translateY(-1px);
   }
   
-  .metric-value {
-    @apply text-2xl font-bold text-[rgb(79_70_229)] mb-1;
+  /* Snapshot Section Styles */
+  .snapshot-container {
+    @apply flex gap-8 items-start;
   }
   
-  .metric-label {
-    @apply text-sm text-slate-600;
+  .chart-container {
+    @apply flex-1;
+  }
+  
+  .stats-container {
+    @apply flex flex-col gap-4 min-w-[240px];
+  }
+  
+  .stat-row {
+    @apply flex justify-between items-center py-3;
+    border-bottom: 1px solid rgba(var(--muted), 0.2);
+  }
+  
+  .stat-row:last-child {
+    border-bottom: none;
+  }
+  
+  .stat-label {
+    color: rgb(var(--muted));
+    @apply text-sm font-medium;
+  }
+  
+  .stat-value {
+    @apply text-lg font-semibold;
+    color: rgb(var(--fg));
+  }
+  
+  /* Timeline Strip */
+  .timeline-container {
+    @apply w-full h-[10px] flex gap-[2px] rounded-lg overflow-hidden;
   }
   
   .timeline-segment {
-    @apply h-8 flex-1 border border-white;
+    @apply flex-1 h-full transition-all duration-300;
+    min-width: 2px;
   }
   
-  .hour-label {
-    @apply text-xs text-slate-500 mt-2;
-  }
-  
+  /* Form Elements */
   .reflection-textarea {
-    @apply w-full p-3 border border-slate-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[rgb(79_70_229)] focus:border-transparent;
+    @apply w-full p-4 rounded-xl resize-none border-0;
+    background: rgb(var(--card));
+    color: rgb(var(--fg));
+    border: 2px solid transparent;
+    transition: all 0.2s var(--spring-curve);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  
+  .reflection-textarea:focus {
+    outline: none;
+    border-color: rgb(var(--accent));
+    box-shadow: 0 0 0 3px rgba(var(--accent), 0.1);
+  }
+  
+  /* Loading Spinner */
+  .loading-spinner {
+    @apply w-6 h-6 border-2 border-t-transparent rounded-full animate-spin;
+    border-color: rgb(var(--accent));
+  }
+  
+  /* Success Icon */
+  .success-icon {
+    @apply w-5 h-5 text-green-500;
+    animation: checkmark 0.6s var(--spring-curve);
+  }
+  
+  @keyframes checkmark {
+    0% {
+      transform: scale(0) rotate(0deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2) rotate(180deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(360deg);
+      opacity: 1;
+    }
+  }
+  
+  /* Typography */
+  .section-title {
+    @apply text-2xl font-semibold mb-6;
+    color: rgb(var(--fg));
+    font-weight: 600;
+  }
+  
+  .insight-text {
+    color: rgb(var(--accent));
+    @apply font-medium;
+  }
+  
+  /* Chart Animation */
+  .chart-container canvas {
+    transition: all 0.6s var(--spring-curve);
+  }
+  
+  /* Card Fade-in Animation */
+  .dashboard-card {
+    animation: cardFadeIn 0.6s var(--spring-curve);
+  }
+  
+  @keyframes cardFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .dashboard-container {
+      @apply px-4 py-8;
+    }
+    
+    .dashboard-card {
+      @apply p-6;
+    }
+    
+    .snapshot-container {
+      @apply flex-col gap-6;
+    }
+    
+    .stats-container {
+      @apply min-w-full;
+    }
+  }
+}
+
+/* Legacy utilities for backward compatibility */
+@layer utilities {
+  .metric-card {
+    @apply dashboard-card;
+  }
+  
+  .metric-value {
+    @apply stat-value;
+  }
+  
+  .metric-label {
+    @apply stat-label;
   }
 }

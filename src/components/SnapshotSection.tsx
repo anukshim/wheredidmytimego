@@ -1,7 +1,7 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { TimeStats, formatDuration, getTotalTime, getTotalSites, getLongestStretch, getHostnameColor } from '../utils/timeUtils';
+import { TimeStats, formatDuration, getTotalTime, getTotalSites, getLongestStretch } from '../utils/timeUtils';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -9,20 +9,32 @@ interface SnapshotSectionProps {
   stats: TimeStats;
 }
 
+// Chart color palette: indigo, green, amber, red, then repeat
+const getChartColor = (index: number): string => {
+  const colors = [
+    'rgb(79, 70, 229)',   // indigo
+    'rgb(34, 197, 94)',   // green
+    'rgb(245, 158, 11)',  // amber
+    'rgb(239, 68, 68)',   // red
+  ];
+  return colors[index % colors.length];
+};
+
 const SnapshotSection: React.FC<SnapshotSectionProps> = ({ stats }) => {
   const totalTime = getTotalTime(stats);
   const totalSites = getTotalSites(stats);
   const longestStretch = getLongestStretch(stats);
 
-  // Prepare chart data
+  // Prepare chart data with new color palette
   const chartData = {
     labels: Object.keys(stats),
     datasets: [
       {
         data: Object.values(stats),
-        backgroundColor: Object.keys(stats).map(hostname => getHostnameColor(hostname)),
-        borderWidth: 2,
-        borderColor: '#ffffff',
+        backgroundColor: Object.keys(stats).map((_, index) => getChartColor(index)),
+        borderWidth: 0,
+        hoverBorderWidth: 2,
+        hoverBorderColor: '#ffffff',
       },
     ],
   };
@@ -32,17 +44,16 @@ const SnapshotSection: React.FC<SnapshotSectionProps> = ({ stats }) => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'bottom' as const,
-        labels: {
-          padding: 20,
-          usePointStyle: true,
-          font: {
-            family: 'Inter',
-            size: 12,
-          },
-        },
+        display: false, // Remove legend as requested
       },
       tooltip: {
+        backgroundColor: 'rgba(17, 24, 39, 0.95)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        borderColor: 'rgba(79, 70, 229, 0.2)',
+        borderWidth: 1,
+        cornerRadius: 12,
+        displayColors: true,
         callbacks: {
           label: function(context: any) {
             const seconds = context.raw;
@@ -51,24 +62,29 @@ const SnapshotSection: React.FC<SnapshotSectionProps> = ({ stats }) => {
         },
       },
     },
-    cutout: '60%',
+    cutout: '65%',
+    animation: {
+      animateRotate: true,
+      duration: 1000,
+      easing: 'easeOutCubic' as const,
+    },
   };
 
   return (
     <div className="dashboard-card mb-8">
-      <h2 className="text-2xl font-bold mb-6 text-slate-800">Snapshot</h2>
+      <h2 className="section-title">📊 Snapshot</h2>
       
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Chart */}
-        <div className="flex-1">
+      <div className="snapshot-container">
+        {/* Chart Container */}
+        <div className="chart-container">
           <div className="relative h-80">
             {Object.keys(stats).length > 0 ? (
               <>
                 <Doughnut data={chartData} options={chartOptions} />
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="text-center">
-                    <div className="text-lg font-semibold text-slate-800">Total online:</div>
-                    <div className="text-xl font-bold text-[rgb(79_70_229)]">
+                    <div className="text-lg font-medium text-[rgb(var(--muted))] mb-1">⏰ Total online</div>
+                    <div className="text-2xl font-semibold text-[rgb(var(--accent))]">
                       {formatDuration(totalTime)}
                     </div>
                   </div>
@@ -76,8 +92,8 @@ const SnapshotSection: React.FC<SnapshotSectionProps> = ({ stats }) => {
               </>
             ) : (
               <div className="flex items-center justify-center h-full">
-                <div className="text-center text-slate-500">
-                  <div className="text-lg font-medium mb-2">No data available</div>
+                <div className="text-center text-[rgb(var(--muted))]">
+                  <div className="text-lg font-medium mb-2">📈 No data available</div>
                   <div className="text-sm">Open via the extension to see your stats</div>
                 </div>
               </div>
@@ -85,21 +101,21 @@ const SnapshotSection: React.FC<SnapshotSectionProps> = ({ stats }) => {
           </div>
         </div>
 
-        {/* Metrics */}
-        <div className="flex flex-col gap-4 lg:w-64">
-          <div className="metric-card">
-            <div className="metric-value">{totalSites}</div>
-            <div className="metric-label">Total sites visited</div>
+        {/* Stats Container */}
+        <div className="stats-container">
+          <div className="stat-row">
+            <span className="stat-label">🌐 Total sites visited</span>
+            <span className="stat-value">{totalSites}</span>
           </div>
           
-          <div className="metric-card">
-            <div className="metric-value">{longestStretch}</div>
-            <div className="metric-label">Longest single stretch (min)</div>
+          <div className="stat-row">
+            <span className="stat-label">🔥 Longest stretch</span>
+            <span className="stat-value">{longestStretch} min</span>
           </div>
           
-          <div className="metric-card">
-            <div className="metric-value">0% / 100%</div>
-            <div className="metric-label">% Focus vs Distraction</div>
+          <div className="stat-row">
+            <span className="stat-label">⚖️ Focus vs Distraction</span>
+            <span className="stat-value">0% / 100%</span>
           </div>
         </div>
       </div>

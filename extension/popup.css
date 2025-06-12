@@ -1,0 +1,342 @@
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* CSS Variables - Same as dashboard */
+:root {
+  --bg: 255, 255, 255;
+  --fg: 15, 23, 42;
+  --card: 255, 255, 255;
+  --muted: 100, 116, 139;
+  --accent: 79, 70, 229;
+  --border: 226, 232, 240;
+}
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 400px;
+  min-height: 500px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Main container */
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+}
+
+/* Header */
+.popup-header {
+  padding: 20px 24px 16px 24px;
+  background: linear-gradient(135deg, rgba(var(--accent), 0.05) 0%, transparent 50%);
+  border-bottom: 1px solid rgba(var(--border), 0.5);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, rgb(var(--accent)) 0%, rgba(var(--accent), 0.8) 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(var(--accent), 0.2);
+}
+
+.app-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(var(--fg));
+  letter-spacing: -0.01em;
+}
+
+/* Sites container */
+.sites-container {
+  flex: 1;
+  padding: 16px 24px;
+  min-height: 200px;
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  gap: 12px;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(var(--accent), 0.2);
+  border-top: 2px solid rgb(var(--accent));
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-state p {
+  color: rgb(var(--muted));
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* No data state */
+.no-data-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  gap: 8px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.no-data-state p {
+  color: rgb(var(--fg));
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.no-data-state small {
+  color: rgb(var(--muted));
+  font-size: 12px;
+}
+
+/* Sites list */
+.sites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.site-item {
+  display: flex;
+  align-items: center;
+  justify-content: between;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(var(--card), 0.8);
+  border: 1px solid rgba(var(--border), 0.6);
+  border-radius: 16px;
+  transition: all 0.2s ease;
+}
+
+.site-item:hover {
+  background: rgba(var(--card), 1);
+  border-color: rgba(var(--accent), 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.site-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.site-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(var(--fg));
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.time-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(var(--muted), 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.time-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgb(var(--accent)) 0%, rgba(var(--accent), 0.7) 100%);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.site-duration {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(var(--accent));
+  text-align: right;
+  min-width: 60px;
+}
+
+/* Quick reflection */
+.reflection-section {
+  padding: 16px 24px 20px 24px;
+  background: rgba(var(--accent), 0.02);
+  border-top: 1px solid rgba(var(--border), 0.5);
+}
+
+.reflection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.reflection-header > span {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(var(--fg));
+}
+
+.char-counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#charCount {
+  font-size: 11px;
+  color: rgb(var(--muted));
+}
+
+#autoSaveIndicator {
+  font-size: 11px;
+  color: rgb(var(--muted));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+#autoSaveIndicator.visible {
+  opacity: 1;
+}
+
+#quickReflection {
+  width: 100%;
+  min-height: 60px;
+  padding: 12px;
+  border: 1px solid rgba(var(--border), 0.6);
+  border-radius: 12px;
+  background: rgb(var(--card));
+  color: rgb(var(--fg));
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.4;
+  resize: none;
+  transition: all 0.2s ease;
+}
+
+#quickReflection:focus {
+  outline: none;
+  border-color: rgba(var(--accent), 0.4);
+  box-shadow: 0 0 0 3px rgba(var(--accent), 0.1);
+}
+
+#quickReflection::placeholder {
+  color: rgb(var(--muted));
+}
+
+/* Popup Actions */
+.popup-actions {
+  display: flex;
+  gap: 12px;
+  padding: 0 24px 24px 24px;
+}
+
+.dashboard-btn {
+  flex: 1;
+  background: rgb(var(--accent));
+  color: white;
+  border: none;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dashboard-btn:hover {
+  background: rgb(67 56 202);
+  transform: translateY(-1px);
+}
+
+.dashboard-btn:active {
+  transform: translateY(0);
+}
+
+.reset-btn {
+  background: rgba(var(--muted), 0.1);
+  color: rgb(var(--muted));
+  border: 1px solid rgba(var(--border), 0.6);
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reset-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: rgb(239, 68, 68);
+  border-color: rgba(239, 68, 68, 0.2);
+  transform: translateY(-1px);
+}
+
+.reset-btn:active {
+  transform: translateY(0);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--muted), 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--muted), 0.5);
+} 

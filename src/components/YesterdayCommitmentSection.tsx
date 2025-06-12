@@ -34,26 +34,28 @@ const YesterdayCommitmentSection: React.FC = () => {
   }
 
   return (
-    <div className={`dashboard-card transition-opacity duration-500 ${isChecked ? 'opacity-50' : 'opacity-100'}`}>
+    <div className={`dashboard-card transition-all duration-500 ${isChecked ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <h2 className="text-lg font-semibold mb-3 text-slate-800">Yesterday's Commitment</h2>
-          <p className="text-slate-600 mb-4">{commitment}</p>
+          <h2 className="text-lg font-semibold mb-4 text-[rgb(var(--fg))]">📅 Yesterday's Commitment</h2>
+          <p className="text-[rgb(var(--muted))] mb-6 leading-relaxed">{commitment}</p>
           
-          <label className="flex items-center gap-3 cursor-pointer">
+          <label className="flex items-center gap-3 cursor-pointer group">
             <input
               type="checkbox"
               checked={isChecked}
               onChange={handleCheck}
-              className="w-4 h-4 text-[rgb(79_70_229)] border-slate-300 rounded focus:ring-[rgb(79_70_229)]"
+              className="w-4 h-4 text-[rgb(var(--accent))] border-[rgb(var(--muted))] rounded focus:ring-[rgb(var(--accent))] focus:ring-2 transition-all duration-200"
             />
-            <span className="text-sm text-slate-700">Did you follow through?</span>
+            <span className="text-sm text-[rgb(var(--fg))] group-hover:text-[rgb(var(--accent))] transition-colors duration-200">
+              ✅ Did you follow through?
+            </span>
           </label>
         </div>
         
         <button
           onClick={() => setIsVisible(false)}
-          className="text-slate-400 hover:text-slate-600 transition-colors"
+          className="text-[rgb(var(--muted))] hover:text-[rgb(var(--fg))] transition-colors duration-200 p-1 rounded-lg hover:bg-[rgba(var(--muted),0.1)]"
         >
           <X className="w-5 h-5" />
         </button>

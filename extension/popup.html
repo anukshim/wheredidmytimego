@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Where Did My Time Go?</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="header-content">
+        <div class="app-icon">⏰</div>
+        <h1 class="app-title">Today's Top Sites</h1>
+      </div>
+    </header>
+
+    <!-- Sites List -->
+    <div class="sites-container" id="sitesContainer">
+      <div class="loading-state" id="loadingState">
+        <div class="loading-spinner"></div>
+        <p>📊 Analyzing your time...</p>
+      </div>
+      
+      <div class="no-data-state" id="noDataState" style="display: none;">
+        <div class="empty-icon">📱</div>
+        <p>No activity detected today</p>
+        <small>Visit some websites to see your time tracking</small>
+      </div>
+      
+      <div class="sites-list" id="sitesList" style="display: none;">
+        <!-- Sites will be populated by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Quick reflection section -->
+    <div class="reflection-section">
+      <div class="reflection-header">
+        <span>💭 Quick note</span>
+        <div class="char-counter">
+          <span id="charCount">0/200</span>
+          <span id="autoSaveIndicator">💾</span>
+        </div>
+      </div>
+      <textarea 
+        id="quickReflection" 
+        placeholder="How was your digital focus today? Any wins or distractions? 🤔"
+        maxlength="200"
+      ></textarea>
+    </div>
+
+    <!-- Popup actions -->
+    <div class="popup-actions">
+      <button id="openDashboard" class="dashboard-btn">
+        📊 Open Dashboard
+      </button>
+      <button id="resetData" class="reset-btn" title="Clear all time tracking data">
+        🗑️ Reset
+      </button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html> 

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Data Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .result { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .error { background: #ffe6e6; color: #d63031; }
+        .success { background: #e6f7e6; color: #2d3436; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Dashboard Data Testing Tool</h1>
+    
+    <div>
+        <h3>1. Test with Sample Data</h3>
+        <button onclick="testWithSampleData()">Generate Test URL</button>
+        <div id="sampleResult" class="result"></div>
+    </div>
+    
+    <div>
+        <h3>2. Current URL Hash Analysis</h3>
+        <button onclick="analyzeCurrentHash()">Analyze Current Hash</button>
+        <div id="hashResult" class="result"></div>
+    </div>
+    
+    <div>
+        <h3>3. Manual Data Entry</h3>
+        <textarea id="manualData" placeholder='Enter JSON data like: {"github.com": 7200, "stackoverflow.com": 3600}' 
+                  style="width: 100%; height: 80px; margin: 10px 0;"></textarea>
+        <button onclick="testManualData()">Test Manual Data</button>
+        <div id="manualResult" class="result"></div>
+    </div>
+
+    <script>
+        function testWithSampleData() {
+            const sampleData = {
+                "github.com": 7200,
+                "stackoverflow.com": 5400,
+                "docs.google.com": 4800,
+                "youtube.com": 3600
+            };
+            
+            const jsonString = JSON.stringify(sampleData);
+            const base64Data = btoa(jsonString);
+            const testUrl = window.location.origin + window.location.pathname + '#' + base64Data;
+            
+            document.getElementById('sampleResult').innerHTML = `
+                <div class="success">
+                    <strong>Sample Data:</strong><br>
+                    JSON: <code>${jsonString}</code><br><br>
+                    <strong>Base64:</strong><br>
+                    <code>${base64Data}</code><br><br>
+                    <strong>Test URL:</strong><br>
+                    <a href="${testUrl}" target="_blank">${testUrl}</a><br><br>
+                    <button onclick="window.location.hash='${base64Data}'">Apply to Current Page</button>
+                </div>
+            `;
+        }
+        
+        function analyzeCurrentHash() {
+            const hash = window.location.hash.slice(1);
+            const resultDiv = document.getElementById('hashResult');
+            
+            if (!hash) {
+                resultDiv.innerHTML = '<div class="error">No hash data found in current URL</div>';
+                return;
+            }
+            
+            try {
+                const decoded = JSON.parse(atob(hash));
+                const totalTime = Object.values(decoded).reduce((sum, val) => sum + val, 0);
+                const totalSites = Object.keys(decoded).length;
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <strong>✅ Hash successfully decoded!</strong><br><br>
+                        <strong>Raw Hash:</strong><br>
+                        <code>${hash}</code><br><br>
+                        <strong>Decoded Data:</strong><br>
+                        <pre>${JSON.stringify(decoded, null, 2)}</pre><br>
+                        <strong>Summary:</strong><br>
+                        • Total sites: ${totalSites}<br>
+                        • Total time: ${Math.round(totalTime / 3600 * 10) / 10} hours<br>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <strong>❌ Failed to decode hash</strong><br>
+                        Error: ${error.message}<br><br>
+                        Raw hash: <code>${hash}</code>
+                    </div>
+                `;
+            }
+        }
+        
+        function testManualData() {
+            const input = document.getElementById('manualData').value.trim();
+            const resultDiv = document.getElementById('manualResult');
+            
+            if (!input) {
+                resultDiv.innerHTML = '<div class="error">Please enter some JSON data</div>';
+                return;
+            }
+            
+            try {
+                const data = JSON.parse(input);
+                const base64Data = btoa(input);
+                const testUrl = window.location.origin + window.location.pathname + '#' + base64Data;
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <strong>✅ Valid JSON!</strong><br><br>
+                        <strong>Base64 Encoded:</strong><br>
+                        <code>${base64Data}</code><br><br>
+                        <strong>Test URL:</strong><br>
+                        <a href="${testUrl}" target="_blank">${testUrl}</a><br><br>
+                        <button onclick="window.location.hash='${base64Data}'">Apply to Current Page</button>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <strong>❌ Invalid JSON</strong><br>
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        // Auto-analyze if there's already a hash
+        window.addEventListener('load', () => {
+            if (window.location.hash) {
+                analyzeCurrentHash();
+            }
+        });
+        
+        // Listen for hash changes
+        window.addEventListener('hashchange', analyzeCurrentHash);
+    </script>
+</body>
+</html> 
